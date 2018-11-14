@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-LABEL maintainer="Dan Molik <dan@danmolik.com> \
+LABEL maintainer="Dan Molik <dan@danmolik.com>" \
 	description="Free Range Routing Daemons on Alpine"
 
 RUN apk update \
