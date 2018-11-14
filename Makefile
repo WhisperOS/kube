@@ -40,6 +40,92 @@ keepalived: keepalived-build keepalived-push
 strongswan: strongswan-build strongswan-push
 frr: frr-build frr-push
 
+auto-strongswan:
+	git checkout -b strongswan-$(STRONGSWAN_VERSION)
+	@sed -e s/@VERSION@/$(STRONGSWAN_VERSION)/g Dockerfile.strongswan.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy Strongswan $(STRONGSWAN_VERSION)"
+	git push origin strongswan-$(STRONGSWAN_VERSION)
+	git checkout master
+
+auto-kube-builder:
+	git checkout -b kube-builder-$(KUBE_VERSION)
+	@sed -e s/@VERSION@/$(KUBE_VERSION)/g \
+		 -e s/@GOVERSION@/$(GOVERSION)/g \
+		Dockerfile.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy Kube-Builder $(KUBE_VERSION)"
+	git push origin kube-builder-$(KUBE_VERSION)
+	git checkout master
+auto-kube-apiserver:
+	git checkout -b kube-apiserver-$(KUBE_VERSION)
+	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-apiserver.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy Kube-Apiserver $(KUBE_VERSION)"
+	git push origin kube-apiserver-$(KUBE_VERSION)
+	git checkout master
+auto-kube-scheduler:
+	git checkout -b kube-scheduler-$(KUBE_VERSION)
+	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-scheduler.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy kube-scheduler $(KUBE_VERSION)"
+	git push origin kube-scheduler-$(KUBE_VERSION)
+	git checkout master
+auto-kube-controller-manager:
+	git checkout -b kube-controller-manager-$(KUBE_VERSION)
+	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-controller-manager.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy kube-controller-manager $(KUBE_VERSION)"
+	git push origin kube-controller-manager-$(KUBE_VERSION)
+	git checkout master
+auto-kube-proxy:
+	git checkout -b kube-proxy-$(KUBE_VERSION)
+	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-proxy.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy kube-proxy $(KUBE_VERSION)"
+	git push origin kube-proxy-$(KUBE_VERSION)
+	git checkout master
+
+auto-etcd-builder:
+	git checkout -b etcd-builder-$(ETCD_VERSION)
+	@sed -e s/@VERSION@/$(ETCD_VERSION)/g \
+		 -e s/@GOVERSION@/$(GOVERSION)/g \
+		Dockerfile.etcd-builder.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy ETCD-Builder $(ETCD_VERSION)"
+	git push origin etcd-builder-$(ETCD_VERSION)
+	git checkout master
+auto-etcd:
+	git checkout -b etcd-$(ETCD_VERSION)
+	@sed -e s/@REPO@/$(REPO)/g Dockerfile.etcd.in  > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy ETCD $(ETCD_VERSION)"
+	git push origin etcd-$(ETCD_VERSION)
+
+auto-haproxy:
+	git checkout -b haproxy-$(HAPROXY_VERSION)
+	@sed -e s/@VERSION@/$(HAPROXY_VERSION)/g Dockerfile.haproxy.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy Haproxy $(HAPROXY_VERSION)"
+	git push origin haproxy-$(HAPROXY_VERSION)
+	git checkout master
+
+auto-keepalived:
+	git checkout -b keepalived-$(KEEPALIVED_VERSION)
+	@sed -e s/@VERSION@/$(KEEPALIVED_VERSION)/g Dockerfile.keepalived.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy Keepalived $(KEEPALIVED_VERSION)"
+	git push origin keepalived-$(KEEPALIVED_VERSION)
+	git checkout master
+
+auto-frr:
+	git checkout -b frr-$(FRR_VERSION)
+	@sed -e s/@VERSION@/$(FRR_VERSION)/g Dockerfile.frr.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy FRR $(FRR_VERSION)"
+	git push origin frr-$(FRR_VERSION)
+	git checkout master
+
 strongswan-build:
 	@sed -e s/@VERSION@/$(STRONGSWAN_VERSION)/g Dockerfile.strongswan.in > Dockerfile.strongswan
 	$(BUILDER) build -f Dockerfile.strongswan -t $(REPO)/strongswan:$(STRONGSWAN_VERSION) .
@@ -68,7 +154,7 @@ kube-build:
 	@sed -e s/@VERSION@/$(KUBE_VERSION)/g \
 		 -e s/@GOVERSION@/$(GOVERSION)/g \
 		Dockerfile.in > Dockerfile
-	$(BUILDER) build -f Dockerfile -t $(REPO)/kubernetes-builder:latest .
+	$(BUILDER) build -f Dockerfile -t $(REPO)/kube-builder:latest .
 	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-controller-manager.in > Dockerfile.kube-controller-manager
 	@sed -e s/@REPO@/$(REPO)/g          Dockerfile.kube-scheduler.in > Dockerfile.kube-scheduler
 	@sed -e s/@REPO@/$(REPO)/g          Dockerfile.kube-apiserver.in > Dockerfile.kube-apiserver

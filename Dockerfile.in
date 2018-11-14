@@ -1,4 +1,4 @@
-FROM golang:@GOVERSION@
+FROM golang:@GOVERSION@ AS builder
 
 RUN mkdir -p /build
 
@@ -29,3 +29,9 @@ RUN cd $GOPATH/src/k8s.io/kubernetes \
 	&& strip /build/kube-scheduler \
 	&& strip /build/kube-controller-manager \
 	&& strip /build/kube-proxy
+
+FROM scratch
+COPY --from=builder /build/kube-apiserver /
+COPY --from=builder /build/kube-proxy /
+COPY --from=builder /build/kube-controller-manager /
+COPY --from=builder /build/kube-scheduler /
