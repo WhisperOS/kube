@@ -12,7 +12,7 @@ And the associated [Static Pod Manifests](docs/kubeconfigs/manifest.yml)
 
 ## VERSIONS
 
-  - Kubernetes: 1.12.2
+  - Kubernetes: 1.12.3
   - Etcd:       3.3.10
   - Keepalived: 2.0.10
   - Haproxy:    1.8.14
