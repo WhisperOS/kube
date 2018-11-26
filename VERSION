@@ -1,5 +1,5 @@
 GO =           1.11.2
-KUBERNETES =   1.12.2
+KUBERNETES =   1.12.3
 ETCD =         3.3.10
 STRONGSWAN =   5.7.1
 KEEPALIVED =   2.0.10
