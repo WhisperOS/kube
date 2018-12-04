@@ -2,13 +2,15 @@
 
 Best practices for Kubernetes deployments.
 
+Feel free to check out the docker hub [org](https://hub.docker.com/u/whisperos)
+
 To build the containers run:
 
     make REPO="$PRIVATE_REPO_URI"
 
-See the docs for an [architectural overview](docs/)
+See the docs for an [architectural overview](https://github.com/WhisperOS/kubes/tree/master/docs)
 
-And the associated [Static Pod Manifests](docs/kubeconfigs/manifest.yml)
+And the associated [Static Pod Manifests](https://github.com/WhisperOS/kubes/blob/master/docs/kubeconfigs/manifest.yml)
 
 ## VERSIONS
 
