@@ -1,5 +1,5 @@
 
-REPO    ?= graytshirt
+REPO    ?= whisperos
 BUILDER ?= docker
 
 KUBE_VERSION=$(shell cat VERSION|grep KUBERNETES|sed -e 's/KUBERNETES[\ \t]*=[\ \t]*//' )
