@@ -9,6 +9,7 @@ STRONGSWAN_VERSION=$(shell cat VERSION|grep STRONGSWAN|sed -e 's/STRONGSWAN[\ \t
 FRR_VERSION=$(shell cat VERSION|grep FRR|sed -e 's/FRR[\ \t]*=[\ \t]*//')
 HAPROXY_VERSION=$(shell cat VERSION|grep HAPROXY|sed -e 's/HAPROXY[\ \t]*=[\ \t]*//')
 GOVERSION=$(shell cat VERSION|grep GO|sed -e 's/GO[\ \t]*=[\ \t]*//')
+IPTABLES_VERSION=$(shell cat VERSION|grep IPTABLES|sed -e 's/IPTABLES[\ \t]*=[\ \t]*//')
 
 .PHONY: version
 
@@ -32,6 +33,7 @@ version:
 	@echo "  - Haproxy:    $(HAPROXY_VERSION)" >> README.md
 	@echo "  - Strongswan: $(STRONGSWAN_VERSION)" >> README.md
 	@echo "  - Frr:        $(FRR_VERSION)" >> README.md
+	@echo "  - IPtables:   $(IPTABLES_VERSION)" >> README.md
 
 kube: kube-build kube-push
 etcd: etcd-build etcd-push
@@ -80,7 +82,7 @@ auto-kube-controller-manager:
 	git checkout master
 auto-kube-proxy:
 	git checkout -b kube-proxy-$(KUBE_VERSION)
-	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-proxy.in > Dockerfile
+	@sed -e s/@REPO@/$(REPO)/g -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g Dockerfile.kube-proxy.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy kube-proxy $(KUBE_VERSION)"
 	git push origin kube-proxy-$(KUBE_VERSION)
@@ -158,10 +160,14 @@ kube-build:
 	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-controller-manager.in > Dockerfile.kube-controller-manager
 	@sed -e s/@REPO@/$(REPO)/g          Dockerfile.kube-scheduler.in > Dockerfile.kube-scheduler
 	@sed -e s/@REPO@/$(REPO)/g          Dockerfile.kube-apiserver.in > Dockerfile.kube-apiserver
-	@sed -e s/@REPO@/$(REPO)/g              Dockerfile.kube-proxy.in > Dockerfile.kube-proxy
+	@sed -e s/@REPO@/$(REPO)/g -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g Dockerfile.kube-proxy.in > Dockerfile.kube-proxy
 	$(BUILDER) build -f Dockerfile.kube-controller-manager -t $(REPO)/kube-controller-manager:$(KUBE_VERSION) .
 	$(BUILDER) build -f Dockerfile.kube-apiserver -t $(REPO)/kube-apiserver:$(KUBE_VERSION) .
 	$(BUILDER) build -f Dockerfile.kube-scheduler -t $(REPO)/kube-scheduler:$(KUBE_VERSION) .
+	$(BUILDER) build -f Dockerfile.kube-proxy -t $(REPO)/kube-proxy:$(KUBE_VERSION) .
+
+kube-proxy:
+	@sed -e s/@REPO@/$(REPO)/g -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g Dockerfile.kube-proxy.in > Dockerfile.kube-proxy
 	$(BUILDER) build -f Dockerfile.kube-proxy -t $(REPO)/kube-proxy:$(KUBE_VERSION) .
 
 haproxy-push:
