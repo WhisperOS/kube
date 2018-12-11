@@ -20,3 +20,4 @@ And the associated [Static Pod Manifests](https://github.com/WhisperOS/kubes/blo
   - Haproxy:    1.8.14
   - Strongswan: 5.7.1
   - Frr:        6.0
+  - IPtables:   1.8.2
