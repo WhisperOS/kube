@@ -2,7 +2,9 @@ FROM @REPO@/etcd-builder:latest AS builder
 
 FROM alpine:@ALPINE_VERSION@
 
-RUN apk upgrade --update --no-cache
+RUN apk upgrade --update --no-cache \
+	&& groupadd -g 159 etcd \
+	&& useradd -g 159 -u 159 -r etcd
 
 USER etcd
 

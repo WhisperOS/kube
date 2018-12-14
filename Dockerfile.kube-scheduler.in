@@ -2,7 +2,9 @@ FROM @REPO@/kube-builder:latest AS builder
 
 FROM alpine:@ALPINE_VERSION@
 
-RUN apk update --upgrade --no-cache
+RUN apk update --upgrade --no-cache \
+	&& groupadd -g 162 kube-scheduler \
+	&& useradd -g 162 -u 162 -r kube-scheduler
 
 USER kube-scheduler
 
