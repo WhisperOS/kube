@@ -1,6 +1,7 @@
 FROM @REPO@/kube-builder:latest AS builder
 
-FROM alpine:latest
+FROM alpine:@ALPINE_VERSION@
+
 RUN apk update \
 	&& apk upgrade \
 	&& apk add --no-cache ipset ipvsadm conntrack-tools libpcap libmnl libnftnl-libs libnetfilter_conntrack \

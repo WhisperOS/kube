@@ -1,4 +1,9 @@
 FROM @REPO@/kube-builder:latest AS builder
 
-FROM alpine:latest
+FROM alpine:@ALPINE_VERSION@
+
+RUN apk update --upgrade --no-cache
+
+USER kube-scheduler
+
 COPY --from=builder /kube-scheduler /

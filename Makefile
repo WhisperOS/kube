@@ -9,6 +9,7 @@ STRONGSWAN_VERSION=$(shell cat VERSION|grep STRONGSWAN|sed -e 's/STRONGSWAN[\ \t
 FRR_VERSION=$(shell cat VERSION|grep FRR|sed -e 's/FRR[\ \t]*=[\ \t]*//')
 HAPROXY_VERSION=$(shell cat VERSION|grep HAPROXY|sed -e 's/HAPROXY[\ \t]*=[\ \t]*//')
 GOVERSION=$(shell cat VERSION|grep GO|sed -e 's/GO[\ \t]*=[\ \t]*//')
+ALPINE_VERSION=$(shell cat VERSION|grep ALPINE|sed -e 's/ALPINE[\ \t]*=[\ \t]*//')
 IPTABLES_VERSION=$(shell cat VERSION|grep IPTABLES|sed -e 's/IPTABLES[\ \t]*=[\ \t]*//')
 
 .PHONY: version
@@ -18,6 +19,9 @@ all: kube etcd haproxy keepalived strongswan frr
 version:
 	@echo "Pushing to Repo    = $(REPO)"
 	@echo
+	@echo "Alpine Version     = $(ALPINE_VERSION)"
+	@echo "Go Version         = $(GOVERSION)"
+	@echo "Iptables Version   = $(IPTABLES_VERSION)"
 	@echo "Kubernetes Version = $(KUBE_VERSION)"
 	@echo "Etcd Version       = $(ETCD_VERSION)"
 	@echo "Keepalived Version = $(KEEPALIVED_VERSION)"
@@ -34,6 +38,8 @@ version:
 	@echo "  - Strongswan: $(STRONGSWAN_VERSION)" >> README.md
 	@echo "  - Frr:        $(FRR_VERSION)" >> README.md
 	@echo "  - IPtables:   $(IPTABLES_VERSION)" >> README.md
+	@echo "  - Alpine:     $(ALPINE_VERSION)" >> README.md
+	@echo "  - Go:         $(GOVERSION)" >> README.md
 
 kube: kube-build kube-push
 etcd: etcd-build etcd-push
@@ -44,7 +50,9 @@ frr: frr-build frr-push
 
 auto-strongswan:
 	git checkout -b strongswan-$(STRONGSWAN_VERSION)
-	@sed -e s/@VERSION@/$(STRONGSWAN_VERSION)/g Dockerfile.strongswan.in > Dockerfile
+	@sed -e s/@VERSION@/$(STRONGSWAN_VERSION)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.strongswan.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy Strongswan $(STRONGSWAN_VERSION)"
 	git push origin strongswan-$(STRONGSWAN_VERSION)
@@ -61,28 +69,37 @@ auto-kube-builder:
 	git checkout master
 auto-kube-apiserver:
 	git checkout -b kube-apiserver-$(KUBE_VERSION)
-	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-apiserver.in > Dockerfile
+	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		Dockerfile.kube-apiserver.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy Kube-Apiserver $(KUBE_VERSION)"
 	git push origin kube-apiserver-$(KUBE_VERSION)
 	git checkout master
 auto-kube-scheduler:
 	git checkout -b kube-scheduler-$(KUBE_VERSION)
-	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-scheduler.in > Dockerfile
+	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.kube-scheduler.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy kube-scheduler $(KUBE_VERSION)"
 	git push origin kube-scheduler-$(KUBE_VERSION)
 	git checkout master
 auto-kube-controller-manager:
 	git checkout -b kube-controller-manager-$(KUBE_VERSION)
-	@sed -e s/@REPO@/$(REPO)/g Dockerfile.kube-controller-manager.in > Dockerfile
+	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.kube-controller-manager.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy kube-controller-manager $(KUBE_VERSION)"
 	git push origin kube-controller-manager-$(KUBE_VERSION)
 	git checkout master
 auto-kube-proxy:
 	git checkout -b kube-proxy-$(KUBE_VERSION)
-	@sed -e s/@REPO@/$(REPO)/g -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g Dockerfile.kube-proxy.in > Dockerfile
+	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.kube-proxy.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy kube-proxy $(KUBE_VERSION)"
 	git push origin kube-proxy-$(KUBE_VERSION)
@@ -99,14 +116,18 @@ auto-etcd-builder:
 	git checkout master
 auto-etcd:
 	git checkout -b etcd-$(ETCD_VERSION)
-	@sed -e s/@REPO@/$(REPO)/g Dockerfile.etcd.in  > Dockerfile
+	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.etcd.in  > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy ETCD $(ETCD_VERSION)"
 	git push origin etcd-$(ETCD_VERSION)
 
 auto-haproxy:
 	git checkout -b haproxy-$(HAPROXY_VERSION)
-	@sed -e s/@VERSION@/$(HAPROXY_VERSION)/g Dockerfile.haproxy.in > Dockerfile
+	@sed -e s/@VERSION@/$(HAPROXY_VERSION)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.haproxy.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy Haproxy $(HAPROXY_VERSION)"
 	git push origin haproxy-$(HAPROXY_VERSION)
@@ -114,7 +135,9 @@ auto-haproxy:
 
 auto-keepalived:
 	git checkout -b keepalived-$(KEEPALIVED_VERSION)
-	@sed -e s/@VERSION@/$(KEEPALIVED_VERSION)/g Dockerfile.keepalived.in > Dockerfile
+	@sed -e s/@VERSION@/$(KEEPALIVED_VERSION)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.keepalived.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy Keepalived $(KEEPALIVED_VERSION)"
 	git push origin keepalived-$(KEEPALIVED_VERSION)

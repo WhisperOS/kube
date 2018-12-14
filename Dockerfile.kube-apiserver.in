@@ -1,4 +1,9 @@
 FROM @REPO@/kube-builder:latest AS builder
 
-FROM alpine:latest
+FROM alpine:@ALPINE_VERSION@
+
+RUN apk upgrade --update --no-cache
+
+USER kube-apiserver
+
 COPY --from=builder /kube-apiserver /

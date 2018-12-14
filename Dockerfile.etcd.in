@@ -1,4 +1,9 @@
 FROM @REPO@/etcd-builder:latest AS builder
 
-FROM alpine:latest
+FROM alpine:@ALPINE_VERSION@
+
+RUN apk upgrade --update --no-cache
+
+USER etcd
+
 COPY --from=builder /build/etcd /
