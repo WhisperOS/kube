@@ -3,8 +3,8 @@ FROM @REPO@/kube-builder:latest AS builder
 FROM alpine:@ALPINE_VERSION@
 
 RUN apk update --upgrade --no-cache \
-	&& groupadd -g 162 kube-scheduler \
-	&& useradd -g 162 -u 162 -r kube-scheduler
+	&& addgroup -S -g 162 kube-scheduler \
+	&& adduser  -S -g 162 -u 162 -G kube-scheduler -s /sbin/nologin  kube-scheduler
 
 USER kube-scheduler
 

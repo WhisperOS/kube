@@ -3,8 +3,8 @@ FROM @REPO@/kube-builder:latest AS builder
 FROM alpine:@ALPINE_VERSION@
 
 RUN apk upgrade --update --no-cache \
-	&& groupadd -g 160 kube-apisever \
-	&& useradd -g 160 -u 160 -r kube-apiserver
+	&& addgroup -S -g 160 kube-apisever \
+	&& adduser  -S -g 160 -u 160 -G kube-apiserver -s /sbin/nologin kube-apiserver
 
 USER kube-apiserver
 

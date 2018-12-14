@@ -3,8 +3,8 @@ FROM @REPO@/kube-builder:latest AS builder
 FROM alpine:@ALPINE_VERSION@
 
 RUN apk update --upgrade --no-cache \
-	&& groupadd -g 161 kube-controller-manager \
-	&& useradd -g 161 -u 160 -r kube-controller-manager
+	&& addgroup -S -g 161 kube-controller-manager \
+	&& adduser  -S -g 161 -u 160 -G kube-controller-manager -s /sbin/nologin kube-controller-manager
 
 USER kube-controller-manager
 
