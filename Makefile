@@ -122,6 +122,7 @@ auto-etcd:
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy ETCD $(ETCD_VERSION)"
 	git push origin etcd-$(ETCD_VERSION)
+	git checkout master
 
 auto-haproxy:
 	git checkout -b haproxy-$(HAPROXY_VERSION)
