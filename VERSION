@@ -1,5 +1,5 @@
 ALPINE =       3.8
-GO =           1.11.3
+GO =           1.11.4
 KUBERNETES =   1.13.1
 ETCD =         3.3.10
 STRONGSWAN =   5.7.1
