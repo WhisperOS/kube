@@ -1,5 +1,13 @@
 FROM alpine:@ALPINE_VERSION@
 
+LABEL name="haproxy" \
+	version="@VERSION@" \
+	release="0" \
+	architecture="x86_v64" \
+	atomic.type="system" \
+	summary="The Reliable, High Performance TCP/HTTP Load Balancer" \
+	maintainer="Dan Molik <dan@whisperos.org>"
+
 RUN apk update \
 	&& apk upgrade \
 	&& apk add pcre2 openssl \
