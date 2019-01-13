@@ -7,7 +7,7 @@ LABEL name="kube-apiserver" \
 	release="0" \
 	architecture="x86_v64" \
 	atomic.type="system" \
-	summary="the Kubernetes api-server daemon"
+	summary="the Kubernetes api-server daemon" \
 	maintainer="Dan Molik <dan@whisperos.org>"
 
 RUN apk upgrade --update --no-cache
