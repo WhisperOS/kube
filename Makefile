@@ -117,6 +117,7 @@ auto-etcd-builder:
 auto-etcd:
 	git checkout -b etcd-$(ETCD_VERSION)
 	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@VERSION@/$(VERSION)/g \
 		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
 		 Dockerfile.etcd.in  > Dockerfile
 	git add -f Dockerfile

@@ -2,10 +2,14 @@ FROM @REPO@/etcd-builder:latest AS builder
 
 FROM alpine:@ALPINE_VERSION@
 
-RUN apk upgrade --update --no-cache \
-	&& addgroup -S -g 159 etcd \
-	&& adduser  -S -g 159 -u 159 -G etcd -s /sbin/nologin etcd
+LABEL name="etcd" \
+	version="@VERSION@" \
+	release="0" \
+	architecture="x86_v64" \
+	atomic.type="system" \
+	summary="Etcd distributed reliable k/v datastore" \
+	maintainer="Dan Molik <dan@whisperos.org>"
 
-USER etcd
+RUN apk upgrade --update --no-cache
 
 COPY --from=builder /build/etcd /
