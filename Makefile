@@ -142,6 +142,7 @@ auto-haproxy:
 auto-keepalived:
 	git checkout -b keepalived-$(KEEPALIVED_VERSION)
 	@sed -e s/@VERSION@/$(KEEPALIVED_VERSION)/g \
+		 -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g \
 		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
 		 Dockerfile.keepalived.in > Dockerfile
 	git add -f Dockerfile
