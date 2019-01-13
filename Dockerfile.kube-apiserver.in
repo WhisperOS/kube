@@ -2,9 +2,15 @@ FROM @REPO@/kube-builder:latest AS builder
 
 FROM alpine:@ALPINE_VERSION@
 
-RUN apk upgrade --update --no-cache \
-	&& addgroup -S -g 160 kube-apiserver \
-	&& adduser  -S -g 160 -u 160 -G kube-apiserver -s /sbin/nologin kube-apiserver
+LABEL name="kube-apiserver" \
+	version="@VERSION@" \
+	release="0" \
+	architecture="x86_v64" \
+	atomic.type="system" \
+	summary="the Kubernetes api-server daemon"
+	maintainer="Dan Molik <dan@whisperos.org>"
+
+RUN apk upgrade --update --no-cache
 
 USER kube-apiserver
 

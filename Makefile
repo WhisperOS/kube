@@ -70,6 +70,7 @@ auto-kube-builder:
 auto-kube-apiserver:
 	git checkout -b kube-apiserver-$(KUBE_VERSION)
 	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@VERSION@/$(KUBE_VERSION)/g \
 		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
 		Dockerfile.kube-apiserver.in > Dockerfile
 	git add -f Dockerfile
