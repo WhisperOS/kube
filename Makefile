@@ -89,6 +89,7 @@ auto-kube-scheduler:
 auto-kube-controller-manager:
 	git checkout -b kube-controller-manager-$(KUBE_VERSION)
 	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@VERSION@/$(KUBE_VERSION)/g \
 		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
 		 Dockerfile.kube-controller-manager.in > Dockerfile
 	git add -f Dockerfile
