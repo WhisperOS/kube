@@ -12,6 +12,4 @@ LABEL name="kube-apiserver" \
 
 RUN apk upgrade --update --no-cache
 
-USER kube-apiserver
-
 COPY --from=builder /kube-apiserver /
