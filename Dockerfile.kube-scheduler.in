@@ -2,10 +2,14 @@ FROM @REPO@/kube-builder:latest AS builder
 
 FROM alpine:@ALPINE_VERSION@
 
-RUN apk update --upgrade --no-cache \
-	&& addgroup -S -g 162 kube-scheduler \
-	&& adduser  -S -g 162 -u 162 -G kube-scheduler -s /sbin/nologin  kube-scheduler
+LABEL name="kube-scheduler" \
+	version="@VERSION@" \
+	release="0" \
+	architecture="x86_v64" \
+	atomic.type="system" \
+	summary="the Kubernetes scheduler daemon" \
+	maintainer="Dan Molik <dan@whisperos.org>"
 
-USER kube-scheduler
+RUN apk update --upgrade --no-cache
 
 COPY --from=builder /kube-scheduler /

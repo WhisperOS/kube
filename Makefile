@@ -80,6 +80,7 @@ auto-kube-apiserver:
 auto-kube-scheduler:
 	git checkout -b kube-scheduler-$(KUBE_VERSION)
 	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@VERSION@/$(KUBE_VERSION)/g \
 		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
 		 Dockerfile.kube-scheduler.in > Dockerfile
 	git add -f Dockerfile
