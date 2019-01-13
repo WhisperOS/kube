@@ -2,6 +2,14 @@ FROM @REPO@/kube-builder:latest AS builder
 
 FROM alpine:@ALPINE_VERSION@
 
+LABEL name="kube-proxy" \
+	version="@VERSION@" \
+	release="0" \
+	architecture="x86_v64" \
+	atomic.type="system" \
+	summary="the Kubernetes network service abstraction daemon" \
+	maintainer="Dan Molik <dan@whisperos.org>"
+
 RUN apk update \
 	&& apk upgrade \
 	&& apk add --no-cache ipset ipvsadm conntrack-tools libpcap libmnl libnftnl-libs libnetfilter_conntrack \

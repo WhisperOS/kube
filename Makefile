@@ -97,6 +97,7 @@ auto-kube-controller-manager:
 auto-kube-proxy:
 	git checkout -b kube-proxy-$(KUBE_VERSION)
 	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@VERSION@/$(KUBE_VERSION)/g \
 		 -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g \
 		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
 		 Dockerfile.kube-proxy.in > Dockerfile
