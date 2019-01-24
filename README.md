@@ -22,4 +22,4 @@ And the associated [Static Pod Manifests](https://github.com/WhisperOS/kubes/blo
   - Frr:        6.0
   - IPtables:   1.8.2
   - Alpine:     3.8
-  - Go:         1.11.4
+  - Go:         1.11.5
