@@ -13,3 +13,4 @@ LABEL name="etcd" \
 RUN apk upgrade --update --no-cache
 
 COPY --from=builder /build/etcd /
+COPY --from=builder /build/etcdctl /

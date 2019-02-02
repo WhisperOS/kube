@@ -12,5 +12,7 @@ RUN cd $GOPATH/src/github.com/etcd-io/etcd \
 	&& ./build
 
 RUN cd $GOPATH/src/github.com/etcd-io/etcd \
-	&& cp bin/etcd /build \
-	&& strip /build/etcd
+	&& cp bin/etcd    /build \
+	&& cp bin/etcdctl /build \
+	&& strip /build/etcd \
+	&& strip /build/etcdctl
