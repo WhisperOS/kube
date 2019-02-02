@@ -10,6 +10,6 @@ LABEL name="kube-scheduler" \
 	summary="the Kubernetes scheduler daemon" \
 	maintainer="Dan Molik <dan@whisperos.org>"
 
-RUN apk update --upgrade --no-cache
+RUN apk upgrade --update --no-cache
 
 COPY --from=builder /kube-scheduler /
