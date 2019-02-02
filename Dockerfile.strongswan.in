@@ -2,10 +2,10 @@ FROM alpine:@ALPINE_VERSION@
 
 RUN apk update \
 	&& apk upgrade \
-	&& apk add json-c libressl ipset iptables libnl3 libnfnetlink libevent \
+	&& apk add json-c openssl ipset iptables libnl3 libnfnetlink libevent \
 		iproute2 gmp unbound-libs libldap ldns libcurl \
 	&& apk add --no-cache --virtual .build-dependencies \
-		gcc make musl-dev curl-dev curl json-c-dev libressl-dev linux-headers libtool \
+		gcc make musl-dev curl-dev curl json-c-dev openssl-dev linux-headers libtool \
 		autoconf automake ipset-dev iptables-dev libnl3-dev libnfnetlink-dev \
 		pkgconf libevent-dev flex bison gettext-dev gmp-dev file openldap-dev \
 		unbound-dev  ldns-dev \
