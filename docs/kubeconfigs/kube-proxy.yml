@@ -106,7 +106,7 @@ spec:
         operator: Exists
       containers:
       - name: kube-proxy
-        image: docker.io/graytshirt/kube-proxy:1.12.2
+        image: docker.io/whisperos/kube-proxy:1.13.3
         command:
         - /kube-proxy
         args:

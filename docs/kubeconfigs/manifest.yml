@@ -11,7 +11,7 @@ spec:
       path: /etc/kubernetes
     name: etc
   containers:
-  - image: docker.io/graytshirt/kube-apiserver:1.12.2
+  - image: docker.io/whisperos/kube-apiserver:1.13.3
     name: kube-apiserver
     command:
     - /kube-apiserver
@@ -43,14 +43,14 @@ spec:
     - --requestheader-extra-headers-prefix=X-Remote-Extra-
     - --requestheader-group-headers=X-Remote-Group
     - --requestheader-username-headers=X-Remote-User
-    #livenessProbe:
-    #  httpGet:
-    #    host: "[%= net_eth0_0_addr.remove('\/\d+') %]"
-    #    path: /healthz
-    #    port: 6443
-    #    scheme: HTTPS
-    #  initialDelaySeconds: 15
-    #  timeoutSeconds: 15
+    livenessProbe:
+      httpGet:
+        host: "10.12.4.114"
+        path: /healthz
+        port: 6443
+        scheme: HTTPS
+      initialDelaySeconds: 15
+      timeoutSeconds: 15
     ports:
     - containerPort: 6443
       hostPort: 6443
@@ -60,7 +60,7 @@ spec:
       name: etc
       readOnly: true
   - name: kube-controller-manager
-    image: docker.io/graytshirt/kube-controller-manager:1.12.2
+    image: docker.io/whisperos/kube-controller-manager:1.13.3
     command:
     - /kube-controller-manager
     args:
@@ -92,7 +92,7 @@ spec:
       name: etc
       readOnly: false
   - name: kube-scheduler
-    image: docker.io/graytshirt/kube-scheduler:1.12.2
+    image: docker.io/whisperos/kube-scheduler:1.13.3
     command:
     - /kube-scheduler
     args:
@@ -120,7 +120,7 @@ metadata:
   namespace: kube-system
 spec:
   containers:
-  - image: docker.io/graytshirt/etcd:3.3.10
+  - image: docker.io/whisperos/etcd:3.3.11
     command:
     - /etcd
     args:
@@ -147,13 +147,14 @@ spec:
     - https://[%= sys_fqdn -%]:2380
     - --advertise-client-urls
     - http://127.0.0.1:2379,https://[%= net_eth0_0_addr.remove('\/\d+') -%]:2379,https://[%= sys_fqdn -%]:2379
-    #livenessProbe:
-    #  httpGet:
-    #    host: 127.0.0.1
-    #    path: /health
-    #    port: 2379
-    #  initialDelaySeconds: 5
-    #  timeoutSeconds: 15
+    livenessProbe:
+      exec:
+        command:
+        - /bin/sh
+        - -c
+        - 'ETCDCTL_API=3 /etcdctl endpoint health'
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
     name: etcd
     ports:
     - containerPort: 2380
@@ -211,7 +212,7 @@ spec:
       type: FileOrCreate
   containers:
   - name: haproxy
-    image: docker.io/graytshirt/haproxy:1.8.14
+    image: docker.io/whisperos/haproxy:1.9.3
     command: [ "/usr/sbin/haproxy" ]
     args: [ "-db", "-f", "/etc/haproxy/haproxy.cfg" ]
     securityContext:
@@ -221,7 +222,7 @@ spec:
       name: etc-haproxy
       readOnly: true
   - name: keepalived
-    image: docker.io/graytshirt/keepalived:2.0.8
+    image: docker.io/whisperos/keepalived:2.0.12
     command:
     - /usr/sbin/keepalived
     args:
