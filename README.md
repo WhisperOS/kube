@@ -17,7 +17,7 @@ And the associated [Static Pod Manifests](https://github.com/WhisperOS/kubes/blo
   - Kubernetes: 1.13.3
   - Etcd:       3.3.12
   - Keepalived: 2.0.13
-  - Haproxy:    1.9.3
+  - Haproxy:    1.9.4
   - Strongswan: 5.7.2
   - Frr:        6.0
   - IPtables:   1.8.2
