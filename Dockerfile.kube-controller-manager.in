@@ -13,3 +13,5 @@ LABEL name="kube-controller-manager" \
 RUN apk update --upgrade --no-cache
 
 COPY --from=builder /kube-controller-manager /
+
+ENTRYPOINT /kube-controller-manager

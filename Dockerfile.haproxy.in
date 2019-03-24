@@ -24,3 +24,5 @@ RUN apk update \
 	&& cp -Rv /root/haproxy-release/* / \
 	&& apk del .build-dependencies \
 	&& cd / && rm -rf /root/haproxy && rm -rf /root/haproxy-release
+
+ENTRYPOINT /usr/sbin/haproxy

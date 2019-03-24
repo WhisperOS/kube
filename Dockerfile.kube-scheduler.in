@@ -13,3 +13,5 @@ LABEL name="kube-scheduler" \
 RUN apk upgrade --update --no-cache
 
 COPY --from=builder /kube-scheduler /
+
+ENTRYPOINT /kube-scheduler

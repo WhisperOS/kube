@@ -49,3 +49,5 @@ RUN apk update \
 	&& rm -rf /var/cache/apk/* \
 	&& rm -rf /root/keepalived && rm -rf /root/keepalived-release
 	# && sed -i '1s/^/#include\ <stdbool.h>\n/' keepalived/core/process.c \
+
+ENTRYPOINT /usr/sbin/keepalived

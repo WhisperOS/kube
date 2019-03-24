@@ -36,3 +36,5 @@ RUN apk update \
 	&& rm -rf /var/cache/apk/*
 
 COPY --from=builder /kube-proxy /
+
+ENTRYPOINT /kube-proxy
