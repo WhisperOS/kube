@@ -1,9 +1,9 @@
-ALPINE =       3.9
-GO =           1.12.1
+ALPINE =       3.9.2
+GO =           1.12.2
 KUBERNETES =   1.14.0
 ETCD =         3.3.12
 STRONGSWAN =   5.7.2
-KEEPALIVED =   2.0.14
+KEEPALIVED =   2.0.15
 HAPROXY =      1.9.5
 FRR =          6.0
 IPTABLES =     1.8.2

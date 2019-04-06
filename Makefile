@@ -28,7 +28,7 @@ version:
 	@echo "Haproxy Version    = $(HAPROXY_VERSION)"
 	@echo "Strongswan Version = $(STRONGSWAN_VERSION)"
 	@echo "Frr Version        = $(FRR_VERSION)"
-	$(shell sed -i '' -e '/##\ VERSIONS/,$$d' README.md )
+	$(shell sed -i -e '/##\ VERSIONS/,$$d' README.md )
 	@echo "## VERSIONS" >> README.md
 	@echo >> README.md
 	@echo "  - Kubernetes: $(KUBE_VERSION)" >> README.md
