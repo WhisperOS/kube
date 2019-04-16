@@ -21,5 +21,5 @@ And the associated [Static Pod Manifests](https://github.com/WhisperOS/kubes/blo
   - Strongswan: 5.7.2
   - Frr:        6.0
   - IPtables:   1.8.2
-  - Alpine:     3.9.2
+  - Alpine:     3.9.3
   - Go:         1.12.4
