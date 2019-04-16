@@ -1,6 +1,6 @@
 ALPINE =       3.9.2
-GO =           1.12.2
-KUBERNETES =   1.14.0
+GO =           1.12.4
+KUBERNETES =   1.14.1
 ETCD =         3.3.12
 STRONGSWAN =   5.7.2
 KEEPALIVED =   2.0.15
