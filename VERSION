@@ -1,7 +1,7 @@
 ALPINE =       3.9.3
 GO =           1.12.4
 KUBERNETES =   1.14.1
-ETCD =         3.3.12
+ETCD =         3.3.13
 STRONGSWAN =   5.7.2
 KEEPALIVED =   2.0.15
 HAPROXY =      1.9.5
