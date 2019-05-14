@@ -1,0 +1,17 @@
+FROM @REPO@/kube-builder:latest AS builder
+
+FROM alpine:@ALPINE_VERSION@
+
+LABEL name="kubelet" \
+	version="@VERSION@" \
+	release="0" \
+	architecture="x86_v64" \
+	atomic.type="system" \
+	summary="the Kubernetes System daemon" \
+	maintainer="Dan Molik <dan@whisperos.org>"
+
+RUN apk upgrade --update --no-cache
+
+COPY --from=builder /kubelet /
+
+ENTRYPOINT /kubelet

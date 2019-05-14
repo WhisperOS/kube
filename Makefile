@@ -108,6 +108,17 @@ auto-kube-proxy:
 	git commit Dockerfile -m "Auto-deploy kube-proxy $(KUBE_VERSION)"
 	git push origin kube-proxy-$(KUBE_VERSION)
 	git checkout master
+auto-kubelet:
+	git checkout -b kubelet-$(KUBE_VERSION)
+	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@VERSION@/$(KUBE_VERSION)/g \
+		 -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		 Dockerfile.kubelet.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy kubelet $(KUBE_VERSION)"
+	git push origin kubelet-$(KUBE_VERSION)
+	git checkout master
 
 auto-etcd-builder:
 	git checkout -b etcd-builder-$(ETCD_VERSION)
