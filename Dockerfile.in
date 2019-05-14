@@ -19,19 +19,24 @@ RUN cd $GOPATH/src/k8s.io/kubernetes \
 	&& LDFLAGS="" make WHAT=cmd/kube-scheduler GOFLAGS=-v
 RUN cd $GOPATH/src/k8s.io/kubernetes \
 	&& LDFLAGS="" make WHAT=cmd/kube-proxy GOFLAGS=-v
+RUN cd $GOPATH/src/k8s.io/kubernetes \
+	&& LDFLAGS="" make WHAT=cmd/kubelet GOFLAGS=-v
 
 RUN cd $GOPATH/src/k8s.io/kubernetes \
 	&& cp _output/bin/kube-controller-manager /build \
 	&& cp _output/bin/kube-apiserver /build \
 	&& cp _output/bin/kube-scheduler /build \
 	&& cp _output/bin/kube-proxy /build \
+	&& cp _output/bin/kubelet /build \
 	&& strip /build/kube-apiserver \
 	&& strip /build/kube-scheduler \
 	&& strip /build/kube-controller-manager \
-	&& strip /build/kube-proxy
+	&& strip /build/kube-proxy \
+	&& strip /build/kubelet
 
 FROM scratch
 COPY --from=builder /build/kube-apiserver /
 COPY --from=builder /build/kube-proxy /
 COPY --from=builder /build/kube-controller-manager /
 COPY --from=builder /build/kube-scheduler /
+COPY --from=builder /build/kubelet /
