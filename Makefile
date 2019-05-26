@@ -14,7 +14,7 @@ IPTABLES_VERSION=$(shell cat VERSION|grep IPTABLES|sed -e 's/IPTABLES[\ \t]*=[\ 
 
 .PHONY: version
 
-all: kube etcd haproxy keepalived strongswan frr
+all: kube etcd haproxy keepalived strongswan
 
 version:
 	@echo "Pushing to Repo    = $(REPO)"
@@ -27,7 +27,6 @@ version:
 	@echo "Keepalived Version = $(KEEPALIVED_VERSION)"
 	@echo "Haproxy Version    = $(HAPROXY_VERSION)"
 	@echo "Strongswan Version = $(STRONGSWAN_VERSION)"
-	@echo "Frr Version        = $(FRR_VERSION)"
 	$(shell sed -i -e '/##\ VERSIONS/,$$d' README.md )
 	@echo "## VERSIONS" >> README.md
 	@echo >> README.md
@@ -36,7 +35,6 @@ version:
 	@echo "  - Keepalived: $(KEEPALIVED_VERSION)" >> README.md
 	@echo "  - Haproxy:    $(HAPROXY_VERSION)" >> README.md
 	@echo "  - Strongswan: $(STRONGSWAN_VERSION)" >> README.md
-	@echo "  - Frr:        $(FRR_VERSION)" >> README.md
 	@echo "  - IPtables:   $(IPTABLES_VERSION)" >> README.md
 	@echo "  - Alpine:     $(ALPINE_VERSION)" >> README.md
 	@echo "  - Go:         $(GOVERSION)" >> README.md
@@ -46,7 +44,6 @@ etcd: etcd-build etcd-push
 haproxy: haproxy-build haproxy-push
 keepalived: keepalived-build keepalived-push
 strongswan: strongswan-build strongswan-push
-frr: frr-build frr-push
 
 auto-strongswan:
 	git checkout -b strongswan-$(STRONGSWAN_VERSION)
@@ -161,21 +158,9 @@ auto-keepalived:
 	git push origin keepalived-$(KEEPALIVED_VERSION)
 	git checkout master
 
-auto-frr:
-	git checkout -b frr-$(FRR_VERSION)
-	@sed -e s/@VERSION@/$(FRR_VERSION)/g Dockerfile.frr.in > Dockerfile
-	git add -f Dockerfile
-	git commit Dockerfile -m "Auto-deploy FRR $(FRR_VERSION)"
-	git push origin frr-$(FRR_VERSION)
-	git checkout master
-
 strongswan-build:
 	@sed -e s/@VERSION@/$(STRONGSWAN_VERSION)/g Dockerfile.strongswan.in > Dockerfile.strongswan
 	$(BUILDER) build -f Dockerfile.strongswan -t $(REPO)/strongswan:$(STRONGSWAN_VERSION) .
-
-frr-build:
-	@sed -e s/@VERSION@/$(FRR_VERSION)/g Dockerfile.frr.in > Dockerfile.frr
-	$(BUILDER) build -f Dockerfile.frr -t $(REPO)/frr:$(FRR_VERSION) .
 
 keepalived-build:
 	@sed -e s/@VERSION@/$(KEEPALIVED_VERSION)/g Dockerfile.keepalived.in > Dockerfile.keepalived
@@ -230,11 +215,6 @@ etcd-push:
 	$(BUILDER) push $(REPO)/etcd:$(ETCD_VERSION)
 	$(BUILDER) tag  $(REPO)/etcd:$(ETCD_VERSION) $(REPO)/etcd:latest
 	$(BUILDER) push $(REPO)/etcd:latest
-
-frr-push:
-	$(BUILDER) push $(REPO)/frr:$(FRR_VERSION)
-	$(BUILDER) tag  $(REPO)/frr:$(FRR_VERSION) $(REPO)/frr:latest
-	$(BUILDER) push $(REPO)/frr:latest
 
 kube-push:
 	$(BUILDER) push $(REPO)/kube-apiserver:$(KUBE_VERSION)
