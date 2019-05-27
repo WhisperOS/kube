@@ -1,4 +1,4 @@
-ALPINE =       3.9.3
+ALPINE =       3.9.4
 GO =           1.12.5
 KUBERNETES =   1.14.2
 ETCD =         3.3.13

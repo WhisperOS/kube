@@ -20,5 +20,5 @@ And the associated [Static Pod Manifests](https://github.com/WhisperOS/kubes/blo
   - Haproxy:    1.9.7
   - Strongswan: 5.7.2
   - IPtables:   1.8.2
-  - Alpine:     3.9.3
+  - Alpine:     3.9.4
   - Go:         1.12.5
