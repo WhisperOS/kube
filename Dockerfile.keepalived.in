@@ -33,7 +33,8 @@ RUN apk update \
 	&& cp -R  /root/iptables-release/* / \
 	&& rm -rf /root/iptables-release /root/iptables \
 	&& mkdir /root/keepalived && cd /root/keepalived \
-	&& curl http://www.keepalived.org/software/keepalived-@VERSION@.tar.gz | tar xz --strip-components=1 -C . \
+	&& curl https://www.keepalived.org/software/keepalived-@VERSION@.tar.gz \
+		| tar xz --strip-components=1 -C . \
 	&& sed -i 's/__always_inline//' lib/rbtree.c \
 	&& sed -i 's/__always_inline//' lib/rbtree_augmented.h \
 	&& autoreconf -i -f \
