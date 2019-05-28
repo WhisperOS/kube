@@ -16,6 +16,7 @@ RUN apk update \
 		libtool gcc make musl-dev curl json-c-dev openssl-dev linux-headers \
 		autoconf automake ipset-dev  libnl3-dev libnfnetlink-dev bison flex file \
 		libpcap-dev libmnl-dev libnftnl-dev libnetfilter_conntrack-dev libnftnl-dev \
+	\
 	&& mkdir /root/iptables && cd /root/iptables \
 	&& curl https://www.netfilter.org/projects/iptables/files/iptables-@IPTABLES_VERSION@.tar.bz2 \
 		| tar xj --strip-components=1 -C . \
@@ -32,6 +33,7 @@ RUN apk update \
 	&& cd / \
 	&& cp -R  /root/iptables-release/* / \
 	&& rm -rf /root/iptables-release /root/iptables \
+	\
 	&& mkdir /root/keepalived && cd /root/keepalived \
 	&& curl https://www.keepalived.org/software/keepalived-@VERSION@.tar.gz \
 		| tar xz --strip-components=1 -C . \
