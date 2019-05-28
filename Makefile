@@ -48,6 +48,7 @@ strongswan: strongswan-build strongswan-push
 auto-strongswan:
 	git checkout -b strongswan-$(STRONGSWAN_VERSION)
 	@sed -e s/@VERSION@/$(STRONGSWAN_VERSION)/g \
+		 -e s/@IPTABLES_VERSION@/$(IPTABLES_VERSION)/g \
 		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
 		 Dockerfile.strongswan.in > Dockerfile
 	git add -f Dockerfile
