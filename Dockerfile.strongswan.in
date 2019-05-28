@@ -3,12 +3,14 @@ FROM alpine:@ALPINE_VERSION@
 RUN apk update \
 	&& apk upgrade \
 	&& apk add json-c openssl ipset libnl3 libnfnetlink libevent \
-		iproute2 gmp unbound-libs libldap ldns libcurl \
+		iproute2 gmp unbound-libs libldap ldns libcurl libpcap \
+		libmnl libnftnl-libs libnetfilter_conntrack libnl3 libnfnetlink \
 	&& apk add --no-cache --virtual .build-dependencies \
 		gcc make musl-dev curl-dev curl json-c-dev openssl-dev linux-headers libtool \
 		autoconf automake ipset-dev libnl3-dev libnfnetlink-dev \
 		pkgconf libevent-dev flex bison gettext-dev gmp-dev file openldap-dev \
-		unbound-dev  ldns-dev \
+		unbound-dev  ldns-dev libpcap-dev libmnl-dev libnetfilter_conntrack-dev \
+		libnftnl-dev \
 	\
 	&& mkdir /root/iptables && cd /root/iptables \
 	&& curl https://www.netfilter.org/projects/iptables/files/iptables-@IPTABLES_VERSION@.tar.bz2 \
