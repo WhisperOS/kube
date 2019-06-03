@@ -7,7 +7,7 @@ RUN cd $GOPATH  && apt-get update && apt-get install rsync -y \
 	&& cd src/github.com/heketi/heketi \
 	&& curl -L https://github.com/heketi/heketi/archive/v@VERSION@.tar.gz | tar xz --strip-components=1 -C . \
 	&& mkdir vendor \
-	&& curl -L https://github.com/heketi/heketi/releases/download/v@VERSION@/heketi-deps-v@VERSION@.tar.gz | tar xz --strip-components -C vendor
+	&& curl -L https://github.com/heketi/heketi/releases/download/v@VERSION@/heketi-deps-v@VERSION@.tar.gz | tar xz --strip-components=1 -C vendor
 
 RUN cd $GOPATH/src/github.com/heketi/heketi \
 	&& sed -e 's/^BRANCH\ :=.*/BRANCH\ =\ master/' \
