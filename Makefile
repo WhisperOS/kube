@@ -68,7 +68,7 @@ auto-heketi:
 		Dockerfile.heketi.in > Dockerfile
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy Heketi $(HEKETI_VERSION)"
-	git push origin kube-apiserver-$(HEKETI_VERSION)
+	git push origin heketi-$(HEKETI_VERSION)
 	git checkout master
 
 auto-kube-builder:
