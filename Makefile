@@ -11,6 +11,7 @@ HAPROXY_VERSION=$(shell cat VERSION|grep HAPROXY|sed -e 's/HAPROXY[\ \t]*=[\ \t]
 GOVERSION=$(shell cat VERSION|grep GO|sed -e 's/GO[\ \t]*=[\ \t]*//')
 ALPINE_VERSION=$(shell cat VERSION|grep ALPINE|sed -e 's/ALPINE[\ \t]*=[\ \t]*//')
 IPTABLES_VERSION=$(shell cat VERSION|grep IPTABLES|sed -e 's/IPTABLES[\ \t]*=[\ \t]*//')
+HEKETI_VERSION=$(shell cat VERSION|grep HEKETI|sed -e 's/HEKETI[\ \t]*=[\ \t]*//')
 
 .PHONY: version
 
@@ -27,6 +28,7 @@ version:
 	@echo "Keepalived Version = $(KEEPALIVED_VERSION)"
 	@echo "Haproxy Version    = $(HAPROXY_VERSION)"
 	@echo "Strongswan Version = $(STRONGSWAN_VERSION)"
+	@echo "Heketi Version     = $(HEKETI_VERSION)"
 	$(shell sed -i -e '/##\ VERSIONS/,$$d' README.md )
 	@echo "## VERSIONS" >> README.md
 	@echo >> README.md
@@ -34,6 +36,7 @@ version:
 	@echo "  - Etcd:       $(ETCD_VERSION)" >> README.md
 	@echo "  - Keepalived: $(KEEPALIVED_VERSION)" >> README.md
 	@echo "  - Haproxy:    $(HAPROXY_VERSION)" >> README.md
+	@echo "  - Heketi:     $(HEKETI_VERSION)" >> README.md
 	@echo "  - Strongswan: $(STRONGSWAN_VERSION)" >> README.md
 	@echo "  - IPtables:   $(IPTABLES_VERSION)" >> README.md
 	@echo "  - Alpine:     $(ALPINE_VERSION)" >> README.md
@@ -54,6 +57,18 @@ auto-strongswan:
 	git add -f Dockerfile
 	git commit Dockerfile -m "Auto-deploy Strongswan $(STRONGSWAN_VERSION)"
 	git push origin strongswan-$(STRONGSWAN_VERSION)
+	git checkout master
+
+auto-heketi:
+	git checkout -b heketi-$(HEKETI_VERSION)
+	@sed -e s/@REPO@/$(REPO)/g \
+		 -e s/@VERSION@/$(HEKETI_VERSION)/g \
+		 -e s/@GOVERSION@/$(GOVERSION)/g \
+		 -e s/@ALPINE_VERSION@/$(ALPINE_VERSION)/g \
+		Dockerfile.heketi.in > Dockerfile
+	git add -f Dockerfile
+	git commit Dockerfile -m "Auto-deploy Heketi $(HEKETI_VERSION)"
+	git push origin kube-apiserver-$(HEKETI_VERSION)
 	git checkout master
 
 auto-kube-builder:

@@ -1,0 +1,35 @@
+FROM golang:@GOVERSION@ AS builder
+
+RUN mkdir -p /build
+
+RUN cd $GOPATH  && apt-get update && apt-get install rsync -y \
+	&& mkdir -p src/github.com/heketi/heketi \
+	&& cd src/github.com/heketi/heketi \
+	&& curl -L https://github.com/heketi/heketi/archive/v@VERSION@.tar.gz | tar xz --strip-components=1 -C . \
+	&& mkdir vendor \
+	&& curl -L https://github.com/heketi/heketi/releases/download/v@VERSION@/heketi-deps-v@VERSION@.tar.gz | tar xz --strip-components -C vendor
+
+RUN cd $GOPATH/src/github.com/heketi/heketi \
+	&& sed -e 's/^BRANCH\ :=.*/BRANCH\ =\ master/' \
+		-e "s/^VER\ :=.*/VER\ = @VERSION@-kubes/" \
+		-e 's/^SHA\ :=.*//' \
+		-e 's/TAG\ := //' \
+		-i Makefile \
+	&& sed -e 's/^BRANCH\ :=.*/BRANCH\ =\ master/' \
+		-e "s/^VER\ :=.*/VER\ = @VERSION@-kubes/" \
+		-e 's/^SHA\ :=.*//' \
+		-e 's/TAG\ := //' \
+		-i client/cli/go/Makefile
+
+RUN cd $GOPATH/src/github.com/heketi/heketi \
+	&& make GOFLAGS=-v
+
+RUN cd $GOPATH/src/github.com/heketi/heketi \
+	&& cp client/cli/go/heketi-cli /build \
+	&& cp heketi /build \
+	&& strip /build/heketi \
+	&& strip /build/heketi-cli
+
+FROM alpine@ALPINE_VERSION@
+COPY --from=builder /build/heketi /
+COPY --from=builder /build/heketi-cli /

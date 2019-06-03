@@ -6,3 +6,4 @@ STRONGSWAN =   5.8.0
 KEEPALIVED =   2.0.16
 HAPROXY =      1.9.8
 IPTABLES =     1.8.3
+HEKETI =       9.0.0
