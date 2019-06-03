@@ -11,7 +11,7 @@ LABEL name="keepalived" \
 RUN apk update \
 	&& apk upgrade \
 	&& apk add json-c openssl ipset ipvsadm conntrack-tools libpcap \
-		libmnl libnftnl-libs libnetfilter_conntrack libnl3 libnfnetlink \
+		libmnl libnftnl-libs libnftnl libnetfilter_conntrack libnl3 libnfnetlink \
 	&& apk add --no-cache --virtual .build-dependencies \
 		libtool gcc make musl-dev curl json-c-dev openssl-dev linux-headers \
 		autoconf automake ipset-dev  libnl3-dev libnfnetlink-dev bison flex file \
