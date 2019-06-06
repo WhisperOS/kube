@@ -23,3 +23,4 @@ RUN cd $GOPATH/src/github.com/heketi/heketi \
 FROM alpine:@ALPINE_VERSION@
 COPY --from=builder /build/heketi /
 COPY --from=builder /build/heketi-cli /
+RUN mkdir /root/.ssh && echo -e "Host *\n  StrictHostKeyChecking no" > /root/.ssh/config
