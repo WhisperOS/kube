@@ -1,9 +1,9 @@
 ALPINE =       3.9.4
 GO =           1.12.5
-KUBERNETES =   1.14.2
+KUBERNETES =   1.14.3
 ETCD =         3.3.13
 STRONGSWAN =   5.8.0
 KEEPALIVED =   2.0.16
 HAPROXY =      1.9.8
-IPTABLES =     1.8.3
+IPTABLES =     1.8.2
 HEKETI =       9.0.0

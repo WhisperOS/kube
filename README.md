@@ -14,12 +14,12 @@ And the associated [Static Pod Manifests](https://github.com/WhisperOS/kubes/blo
 
 ## VERSIONS
 
-  - Kubernetes: 1.14.2
+  - Kubernetes: 1.14.3
   - Etcd:       3.3.13
   - Keepalived: 2.0.16
   - Haproxy:    1.9.8
   - Heketi:     9.0.0
   - Strongswan: 5.8.0
-  - IPtables:   1.8.3
+  - IPtables:   1.8.2
   - Alpine:     3.9.4
   - Go:         1.12.5
