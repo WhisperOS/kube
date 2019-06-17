@@ -4,6 +4,6 @@ KUBERNETES =   1.14.3
 ETCD =         3.3.13
 STRONGSWAN =   5.8.0
 KEEPALIVED =   2.0.16
-HAPROXY =      1.9.8
+HAPROXY =      2.0.0
 IPTABLES =     1.8.2
 HEKETI =       9.0.0
